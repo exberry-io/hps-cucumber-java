@@ -14,7 +14,7 @@ The goals are:
 System under test
 ------------------
 
-The SUT is a (not that much) simple coffee machine. You start it, you ask for a coffee and you get it, sometimes. But most of times you have to add water or beans, empty the grounds. You have an automatic expresso machine at work or at home? So you know how it goes :-)
+The SUT is exchange multi tenant cluster
 
 Update tests
 -------------
@@ -24,7 +24,7 @@ To update the tests:
 
     "hiptest-publisher -c cucumber-java.conf --only=features,step_definitions"
 
-The tests are generated in [``src/main/test/java/com/coffeemachine``](https://github.com/hiptest/hps-cucumber-java/tree/master/src/test/java/com/coffeemachine)
+The tests are generated in [``src/main/test/java/io/exberry/e2e``](https://github.com/exberry-io/hps-tests/tree/master/src/test/java/io/exberry/e2e)
 
 Run tests
 ---------
@@ -33,7 +33,6 @@ Run tests
 To build the project and run the tests, use the following command:
 
     mvn test
-
-The SUT implementation can be seen in [``src/main/java/com/coffeemachine/CoffeeMachine.java``](https://github.com/hiptest/hps-cucumber-java/blob/master/src/main/java/com/coffeemachine/CoffeeMachine.java)
-
+    
+    
 The test report is generated in ```target/cuke-results.json```
