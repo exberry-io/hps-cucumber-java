@@ -14,6 +14,26 @@
   <packaging>jar</packaging>
   <name>${project.artifactId}: e2e tests with Cucumber Studio</name>
 
+  <properties>
+    <github.repository>exberry-io/hps-tests</github.repository>
+    <junit.version>4.11</junit.version>
+    <cucumber-java.version>1.2.3</cucumber-java.version>
+    <cucumber-junit.version>1.2.3</cucumber-junit.version>
+    <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
+    <exchange-service-api.version>0.0.4</exchange-service-api.version>
+    <exchange-audit-service-api.version>0.0.10</exchange-audit-service-api.version>
+    <exchange-operation-service-api.version>0.0.9</exchange-operation-service-api.version>
+
+    <scalecube-services.version>2.9.1-RC8</scalecube-services.version>
+    <scalecube-commons.version>1.0.2</scalecube-commons.version>
+    <scalecube-services-gateway.version>2.8.16-RC5</scalecube-services-gateway.version>
+    <reactor.version>Dysprosium-SR7</reactor.version>
+    <rsocket.version>1.0.0</rsocket.version>
+    <netty.version>4.1.48.Final</netty.version>
+    <jackson.version>2.11.0</jackson.version>
+    <slf4j.version>1.7.30</slf4j.version>
+  </properties>
+
   <repositories>
     <repository>
       <id>github</id>
@@ -38,16 +58,93 @@
     <tag>HEAD</tag>
   </scm>
 
-  <properties>
-    <github.repository>exberry-io/hps-tests</github.repository>
-    <junit.version>4.11</junit.version>
-    <cucumber-java.version>1.2.3</cucumber-java.version>
-    <cucumber-junit.version>1.2.3</cucumber-junit.version>
-    <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
-  </properties>
-
   <dependencyManagement>
     <dependencies>
+      <!-- Netty -->
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-bom</artifactId>
+        <version>${netty.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- Jackson -->
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- Reactor -->
+      <dependency>
+        <groupId>io.projectreactor</groupId>
+        <artifactId>reactor-bom</artifactId>
+        <version>${reactor.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- scalecube services -->
+      <dependency>
+        <groupId>io.scalecube</groupId>
+        <artifactId>scalecube-services</artifactId>
+        <version>${scalecube-services.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.scalecube</groupId>
+        <artifactId>scalecube-services-api</artifactId>
+        <version>${scalecube-services.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.scalecube</groupId>
+        <artifactId>scalecube-services-gateway-client-transport</artifactId>
+        <version>${scalecube-services-gateway.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.scalecube</groupId>
+        <artifactId>scalecube-services-transport-jackson</artifactId>
+        <version>${scalecube-services.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.scalecube</groupId>
+        <artifactId>scalecube-services-gateway-netty</artifactId>
+        <version>${scalecube-services-gateway.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.scalecube</groupId>
+        <artifactId>scalecube-services-transport-rsocket</artifactId>
+        <version>${scalecube-services.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.scalecube</groupId>
+        <artifactId>scalecube-services-bytebuf-codec</artifactId>
+        <version>${scalecube-services.version}</version>
+      </dependency>
+
+      <!-- exberry public api -->
+      <dependency>
+        <groupId>io.exberry</groupId>
+        <artifactId>exchange-service-api</artifactId>
+        <version>${exchange-service-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.exberry</groupId>
+        <artifactId>exchange-audit-service-api</artifactId>
+        <version>${exchange-audit-service-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.exberry</groupId>
+        <artifactId>exchange-operation-service-api</artifactId>
+        <version>${exchange-operation-service-api.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+
+
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
@@ -67,6 +164,47 @@
   </dependencyManagement>
 
   <dependencies>
+    <!-- Scalecube -->
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-services</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-services-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-services-gateway-client-transport</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-services-transport-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-services-gateway-netty</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-services-transport-rsocket</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-services-bytebuf-codec</artifactId>
+    </dependency>
+
+    <!-- Exberry -->
+    <dependency>
+      <groupId>io.exberry</groupId>
+      <artifactId>exchange-service-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.exberry</groupId>
+      <artifactId>exchange-audit-service-api</artifactId>
+    </dependency>
+
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -82,6 +220,13 @@
       <artifactId>cucumber-junit</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-buffer</artifactId>
+      <version>${netty.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
